@@ -1,0 +1,60 @@
+﻿@model IEnumerable<MyVideostore.Models.Video>
+
+@{
+    ViewData["Title"] = "Video Details";
+}
+
+<h1>Video Details</h1>
+<br />
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="p-4">Video Details</h3>
+        </div>
+
+        <div class="col-md-12 p-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Video ID</th>
+                        <th scope="col">Video Name</th>
+                        <th scope="col">Director</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Poster</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var video in Model)
+                    {
+                        <tr>
+                            <td>@video.VideoID</td>
+                            <td>@video.Title</td>
+                            <td>@video.Director</td>
+                            <td>@video.Genre?.GenreName</td>
+                            <td>
+                                @if (video.Poster != null && video.Poster.Length > 0)
+                                {
+                                    var base64String = Convert.ToBase64String(video.Poster);
+                                    <img src="data:image/jpeg;base64,@base64String" alt="Poster" style="width:100px;height:auto;" />
+                                }
+                                else
+                                {
+                                    <span>No Poster</span>
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Edit", new { id = video.VideoID })" class="btn btn-primary">Edit</a>
+                                <form asp-action="Delete" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@video.VideoID" />
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

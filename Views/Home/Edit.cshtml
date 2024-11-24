@@ -1,0 +1,42 @@
+﻿@model MyVideostore.Models.Video
+
+@{
+    ViewData["Title"] = "Edit Video";
+}
+
+<h1>Edit Video</h1>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="VideoID" />
+
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Director"></label>
+            <input asp-for="Director" class="form-control" />
+            <span asp-validation-for="Director" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GenreID">Genre</label>
+            <select asp-for="GenreID" asp-items="@(new SelectList(ViewBag.Genres, "GenreID", "GenreName"))" class="form-control">
+                <option value="">-- Select a Genre --</option>
+            </select>
+            <span asp-validation-for="GenreID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Poster">Poster Image</label>
+            <input type="file" name="poster" class="form-control" />
+            <span asp-validation-for="Poster" class="text-danger"></span>
+        </div>
+
+        <br />
+
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+

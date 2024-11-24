@@ -1,0 +1,67 @@
+﻿@model MyVideostore.Models.Video
+
+@{
+    ViewData["Title"] = "Edit Video";
+}
+
+<h1>Search</h1>
+
+<!-- Display error or success messages -->
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <p style="color: red;">@ViewBag.ErrorMessage</p>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <p style="color: green;">@ViewBag.SuccessMessage</p>
+}
+
+<!-- Form to search video by ID -->
+<form asp-action="Search" method="get" style="margin-bottom: 20px;">
+    <div>
+        <label for="videoId">Enter Video ID to search:</label>
+        <input type="number" id="videoId" name="id" required style="width: 100px;" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <!-- If a video is found, show form to edit its details -->
+    <h2>Edit Video Details</h2>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="VideoID" />
+
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Director"></label>
+            <input asp-for="Director" class="form-control" />
+            <span asp-validation-for="Director" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GenreID">Genre</label>
+            <select asp-for="GenreID" asp-items="@(new SelectList(ViewBag.Genres, "GenreID", "GenreName"))" class="form-control">
+                <option value="">-- Select a Genre --</option>
+            </select>
+            <span asp-validation-for="GenreID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Poster">Poster Image</label>
+            <input type="file" name="poster" class="form-control" />
+            <span asp-validation-for="Poster" class="text-danger"></span>
+        </div>
+
+        <br />
+
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+}
